@@ -12,11 +12,12 @@ import { cookieKey } from "./config/keys";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const mongoURI = process.env.MONGO_URI || "mongodb://localhost/vuePress";
 
 //Mongoose Connect
 mongoose.Promise = global.Promise;
 mongoose.connect(
-  "mongodb://localhost/vuePress",
+  mongoURI,
   {
     useMongoClient: true
   }
@@ -53,10 +54,11 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
 }
-
-app.get("/", (req, res) => {
-  res.send("Hello World");
-});
+else {
+  app.get("/", (req, res) => {
+    res.send("Hello World");
+  });
+}
 
 app.listen(PORT, () => {
   console.log("vuePress running on port :", PORT);
