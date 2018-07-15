@@ -1,12 +1,12 @@
 import { getPosts, addNewPost, updatePost, getPostById, deletePost } from "../middlewares/post.middleware";
 
-const routes = app => {
+const postRoutes = app => {
     app
-      .route("/posts")
+      .route("/api/posts")
       .get(getPosts)
       .post(addNewPost);
     app
-      .route("/posts/:postId")
+      .route("/api/posts/:postId")
       //Put Request
       .put(updatePost)
   
@@ -17,4 +17,4 @@ const routes = app => {
       .delete(deletePost);
   };
   
-  export default routes;
+  export default postRoutes;

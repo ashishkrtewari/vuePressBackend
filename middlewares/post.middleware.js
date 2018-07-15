@@ -45,7 +45,7 @@ export const updatePost = (req, res) => {
 };
 
 export const deletePost = (req, res) => {
-    Post.remove({_id:req.params.postId}, (err) => {
+    Post.findByIdAndRemove({_id:req.params.postId}, (err) => {
       if (err) {
         res.send(err);
       }

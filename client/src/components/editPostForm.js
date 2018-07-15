@@ -3,7 +3,7 @@ import axios from "axios";
 import { Redirect } from "react-router-dom";
 import Dropzone from 'react-dropzone';
 
-export default class AddPostForm extends React.Component {
+export default class EditPostForm extends React.Component {
   state = {
     title: "",
     description: "",
@@ -12,8 +12,21 @@ export default class AddPostForm extends React.Component {
     redirect:false,
     sheet: "",
     files:[],
-    fileAdded:false
+    fileAdded:false,
+    id: ""
   };
+ async getPost(){
+   let id = await this.props.match.params.id;
+   this.setState({id});
+  let post = await axios.get(`/api/posts/${id}`);
+  post = post.data;
+  this.setState({title:post.title,description:post.description,featuredImage:post.featuredImage,
+  content:post.content})
+  }
+
+  componentDidMount(){
+    this.getPost();
+  }
 
   onTitleChange(title) {
     this.setState({ title });
@@ -26,7 +39,7 @@ export default class AddPostForm extends React.Component {
   }
   onFormSubmit(event) {
     event.preventDefault();
-    axios.post("/api/posts", this.state).then(
+    axios.put(`/api/posts/${this.state.id}`, this.state).then(
       res => {
         this.setState({redirect:true});
       },

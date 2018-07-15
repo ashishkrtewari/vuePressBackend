@@ -1,49 +1,58 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
 import {
   BrowserRouter as Router,
   Route,
-  Switch,
-  Link
+  Switch
 } from 'react-router-dom';
 import Dashboard from "./components/Dashboard";
 import AddPostForm from "./components/addPostForm";
+import EditPostForm from "./components/editPostForm";
+import Header from "./components/header";
 
 class App extends Component {
   state = {
-    posts: []
+    posts: [],
+    auth:null
   }
+  async fetchUser(){
+    let auth = await axios.get('/api/current_user');
+    auth = auth.data;
+    this.setState({ auth });
+  };
+  async fetchPosts(){
+    let posts = await axios.get(`/api/posts`)
+    posts = posts.data;
+    this.setState({ posts });
+  };
+  async handlePostDelete(id){
+    let res = await axios.delete(`/api/posts/${id}`);
+    console.log(res);
+    this.fetchPosts();
+  };
 
-  componentDidMount() {
-    axios.get(`/posts`)
-      .then(res => {
-        const posts = res.data;
-        console.log(posts);
-        this.setState({ posts });
-      })
+  async componentDidMount() {
+    await this.fetchUser();
+    if(this.state.auth){
+      await this.fetchPosts();
+    }
   }
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <h1 className="App-title">Welcome to VuePress</h1>
-          <div>
-          </div>
-        </header>
+      <div className="App container">        
         <div className="main">
+            <Header auth={this.state.auth} />  
             <Router>
               <Switch>
-                <Route exact path="/" render={(props) => <Dashboard {...props} posts={this.state.posts} />} />
-                <Route path="/preview-posts" render={(props) => <Dashboard {...props} posts={this.state.posts} />} />
+                <Route exact path="/" render={(props) => <Dashboard {...props} auth={this.state.auth} posts={this.state.posts} handlePostDelete={this.handlePostDelete.bind(this)} />} />
+                <Route path="/posts" render={(props) => <Dashboard {...props} auth={this.state.auth} posts={this.state.posts} handlePostDelete={this.handlePostDelete.bind(this)} />} />
                 <Route path="/add-post" component={AddPostForm} />
+                <Route path="/edit-post/:id" render={(props) => <EditPostForm {...props}  />} />
                 <Route render={() => <h3>Not Found</h3>} />
               </Switch>
             </Router>
         </div>
-        {/* <Dashboard posts={this.state.posts}/> */}
-        {/* <AddPostForm /> */}
       </div>
     );
   }
