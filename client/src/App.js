@@ -31,7 +31,7 @@ class App extends Component {
     this.setState({ posts });
   };
   async handlePostDelete(id){
-    let res = await axios.delete(`/api/posts/${id}`);
+    await axios.delete(`/api/posts/${id}`);
     this.fetchPosts();
   };
 

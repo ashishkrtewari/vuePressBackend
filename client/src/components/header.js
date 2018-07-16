@@ -12,21 +12,21 @@ import {
         return;
       case false:
         return (
-        <ul className="right">
-          <li>
-            <a key="0" className="pulse" href="/auth/google">Login</a>
+        <ul key={0} className="right">
+          <li key={1}>
+            <a className="pulse" href="/auth/google">Login</a>
           </li>
         </ul>
         );
       default:
         return [
-        <ul className="right">
-            <li key={0}>
+        <ul key={0} className="right">
+            <li key={1}>
                 <a href="/posts">Posts</a>
             </li>
-            <li key={1}>
+            {/* <li key={1}>
                 <a href="/promos">Promos</a>
-            </li>
+            </li> */}
             <li key={2}>
                 <a>Hello {auth.name.givenName} !</a>
             </li>
