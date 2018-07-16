@@ -2,7 +2,10 @@ import React from 'react';
 import M from 'materialize-css/dist/js/materialize.min.js'
 
 const Dashboard  = ({ posts, auth, handlePostDelete }) => {
-    if(!auth){
+    if(auth === null){
+        return null;
+    }
+    else if(auth === ""){
         return (
         <div className="card-panel hoverable">
             <h4>Hello There!</h4>

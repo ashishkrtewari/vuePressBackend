@@ -12,10 +12,14 @@ import EditPostForm from "./components/editPostForm";
 import Header from "./components/header";
 
 class App extends Component {
-  state = {
-    posts: [],
-    auth:null
+  constructor(){
+    super();
+    this.state = {
+      posts: [],
+      auth:null
+    }
   }
+  
   async fetchUser(){
     let auth = await axios.get('/api/current_user');
     auth = auth.data;
@@ -28,12 +32,13 @@ class App extends Component {
   };
   async handlePostDelete(id){
     let res = await axios.delete(`/api/posts/${id}`);
-    console.log(res);
     this.fetchPosts();
   };
 
   async componentDidMount() {
-    await this.fetchUser();
+    if(this.state.auth === null){
+      await this.fetchUser();
+    }
     if(this.state.auth){
       await this.fetchPosts();
     }
