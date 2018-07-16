@@ -4,10 +4,10 @@ import mongoose from "mongoose";
 import postRoutes from "./routes/postRoutes";
 import authRoutes from "./routes/authRoutes";
 import uploadRoutes from "./routes/uploadRoutes";
-import cookieSession from 'cookie-session';
-import passport from 'passport';
-import './models/userModel';
-import './services/passport';
+import cookieSession from "cookie-session";
+import passport from "passport";
+import "./models/userModel";
+import "./services/passport";
 import { cookieKey } from "./config/keys";
 import staticRoutes from "./routes/staticRoutes";
 
@@ -43,7 +43,6 @@ authRoutes(app);
 postRoutes(app);
 uploadRoutes(app);
 staticRoutes(app);
-
 
 app.listen(PORT, () => {
   console.log("vuePress running on port :", PORT);

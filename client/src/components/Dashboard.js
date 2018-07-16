@@ -22,7 +22,7 @@ const Dashboard  = ({ posts, auth, handlePostDelete }) => {
                         </div>
                         <div className="card-action">
                             <a href={"/edit-post/" + post._id}  className="white-text"><i className="small material-icons">edit</i></a>
-                            <a onClick={handlePostDelete.bind(false,post._id)} className="red-text"><i className="small material-icons">delete</i></a>
+                            <a onClick={handlePostDelete.bind(false,post._id)} className="red-text cursor-pointer"><i className="small material-icons">delete</i></a>
                         </div>
                     </div>
                 </div>
