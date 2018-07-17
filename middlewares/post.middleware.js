@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import Post from "../models/postModel";
+import { ObjectID } from "mongodb";
 
 export const addNewPost = (req, res) => {
   let newPost = new Post(req.body);
@@ -22,12 +23,23 @@ export const getPosts = (req, res) => {
 };
 
 export const getPostById = (req, res) => {
-  Post.findById(req.params.postId, (err, post) => {
-    if (err) {
-      res.send(err);
-    }
-    res.json(post);
-  });
+
+  if (!ObjectID.isValid(req.params.postId)) {
+    Post.findOne({ 'slug': req.params.postId }, (err, post) => {
+      if (err) {
+        res.send(err);
+      }
+      res.json(post);
+    });
+  }
+  else {
+    Post.findOne({ _id: req.params.postId }, (err, post) => {
+      if (err) {
+        res.send(err);
+      }
+      res.json(post);
+    });
+  }
 };
 
 export const updatePost = (req, res) => {
